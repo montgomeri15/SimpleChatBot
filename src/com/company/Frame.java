@@ -1,7 +1,10 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Frame extends JFrame {
 
@@ -13,12 +16,12 @@ public class Frame extends JFrame {
     private JLabel labelSpace1 = new JLabel("    ");
     private JLabel labelSpace2 = new JLabel("    ");
     private JLabel labelSpace3 = new JLabel("    ");
-    private JButton buttonStart = new JButton("Старт");
+    private JButton buttonNext = new JButton("Далее");
     private JButton buttonClean = new JButton("Очистить");
 
     private String name = "Чат-бот";
 
-    protected void Frame(){
+    protected void ourFrame(){
 
         setTitle(name);
         setSize(550,350);
@@ -28,6 +31,9 @@ public class Frame extends JFrame {
 
         textAreaBot.setEditable(false);
         textAreaBot.setBackground(Color.decode("#F4F7FF"));
+        textAreaBot.setText("Привет!");
+
+        textAreaUser.setCaretPosition(0);  //Автоматически устанавливаем курсор на первую строку
 
         //Блок с расположением
         panelUser.setLayout(new GridBagLayout());
@@ -43,7 +49,7 @@ public class Frame extends JFrame {
         panelUser.add(labelSpace1, c);
         c.gridx = 0;
         c.gridy = 2;
-        panelUser.add(buttonStart, c);
+        panelUser.add(buttonNext, c);
 
         c.gridx = 0;
         c.gridy = 0;
@@ -66,6 +72,31 @@ public class Frame extends JFrame {
         panelMain.add(panelBot);
 
         add(panelMain, BorderLayout.CENTER);
+
+        buttonNext.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    buttonAction();
+                } catch (BadLocationException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
+
+    protected void buttonAction() throws BadLocationException {
+
+        String textSave = textAreaUser.getText();
+        int lines = textAreaUser.getLineCount();
+
+        for(int i = 0; i < lines; i++){
+            int start = textAreaUser.getLineStartOffset(i);
+            int end = textAreaUser.getLineEndOffset(i);
+            String allArea = textAreaUser.getText(start, end-start);
+            System.out.println(allArea);
+        }
+        textAreaUser.setText(textSave + "\n");
     }
 }
 
