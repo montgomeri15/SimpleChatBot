@@ -1,4 +1,6 @@
-package com.company;
+package com.company.Frames;
+
+import sun.rmi.runtime.Log;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -6,10 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Frame extends JFrame {
+public class ChatFrame extends JFrame {
 
     private String title = "Чат-бот";
-    private String name = "Name:";
+    private String name;
 
     private JPanel panelMain = new JPanel();
     private JPanel panelBottom = new JPanel();
@@ -21,12 +23,10 @@ public class Frame extends JFrame {
     private JLabel labelSpace1 = new JLabel("    ");
     private JLabel labelSpace2 = new JLabel("    ");
     private JLabel labelSpace3 = new JLabel("    ");
-    private JLabel labelSpace4 = new JLabel("    ");
-    private JLabel labelSpace5 = new JLabel("    ");
 
     private JButton buttonSend = new JButton("Тыц");
 
-    protected void ourFrame(){
+    protected void ourChat(){
 
         setTitle(title);
         setSize(350,360);
@@ -34,7 +34,7 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
-        textMessage.setCaretPosition(0);  //Автоматически устанавливаем курсор на первую строку
+        textAreaMessage.setEditable(false);
 
         //Блок с расположением
         panelMain.setLayout(new GridBagLayout());
@@ -59,19 +59,13 @@ public class Frame extends JFrame {
 
         c.gridx = 0;
         c.gridy = 0;
-        panelMain.add(labelSpace3, c);
-        c.gridx = 0;
-        c.gridy = 1;
         panelMain.add(textAreaMessage, c);
         c.gridx = 0;
+        c.gridy = 1;
+        panelMain.add(labelSpace3, c);
+        c.gridx = 0;
         c.gridy = 2;
-        panelMain.add(labelSpace4, c);
-        c.gridx = 0;
-        c.gridy = 3;
         panelMain.add(panelBottom, c);
-        c.gridx = 0;
-        c.gridy = 4;
-        panelMain.add(labelSpace5, c);
 
         add(panelMain, BorderLayout.CENTER);
 
@@ -84,7 +78,6 @@ public class Frame extends JFrame {
     }
 
     protected void buttonAction(){
-
         String textSave = textAreaMessage.getText();
         textAreaMessage.setText(textSave+"\n"+textMessage.getText());
     }
