@@ -8,95 +8,85 @@ import java.awt.event.ActionListener;
 
 public class Frame extends JFrame {
 
+    private String title = "Чат-бот";
+    private String name = "Name:";
+
     private JPanel panelMain = new JPanel();
-    private JPanel panelUser = new JPanel();
-    private JPanel panelBot = new JPanel();
-    private JTextArea textAreaUser = new JTextArea(15,20);
-    private JTextArea textAreaBot = new JTextArea(15,20);
+    private JPanel panelBottom = new JPanel();
+
+    private JTextArea textAreaMessage = new JTextArea(15,25);
+    private JTextField textMessage = new JTextField(15);
+
+    private JLabel labelName = new JLabel(name);
     private JLabel labelSpace1 = new JLabel("    ");
     private JLabel labelSpace2 = new JLabel("    ");
     private JLabel labelSpace3 = new JLabel("    ");
-    private JButton buttonNext = new JButton("Далее");
-    private JButton buttonClean = new JButton("Очистить");
+    private JLabel labelSpace4 = new JLabel("    ");
+    private JLabel labelSpace5 = new JLabel("    ");
 
-    private String name = "Чат-бот";
+    private JButton buttonSend = new JButton("Тыц");
 
     protected void ourFrame(){
 
-        setTitle(name);
-        setSize(550,350);
+        setTitle(title);
+        setSize(350,360);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
-        textAreaBot.setEditable(false);
-        textAreaBot.setBackground(Color.decode("#F4F7FF"));
-        textAreaBot.setText("Привет!");
-
-        textAreaUser.setCaretPosition(0);  //Автоматически устанавливаем курсор на первую строку
+        textMessage.setCaretPosition(0);  //Автоматически устанавливаем курсор на первую строку
 
         //Блок с расположением
-        panelUser.setLayout(new GridBagLayout());
-        panelBot.setLayout(new GridBagLayout());
         panelMain.setLayout(new GridBagLayout());
+        panelBottom.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         c.gridx = 0;
         c.gridy = 0;
-        panelUser.add(textAreaUser, c);
-        c.gridx = 0;
-        c.gridy = 1;
-        panelUser.add(labelSpace1, c);
-        c.gridx = 0;
-        c.gridy = 2;
-        panelUser.add(buttonNext, c);
-
-        c.gridx = 0;
-        c.gridy = 0;
-        panelBot.add(textAreaBot, c);
-        c.gridx = 0;
-        c.gridy = 1;
-        panelBot.add(labelSpace2, c);
-        c.gridx = 0;
-        c.gridy = 2;
-        panelBot.add(buttonClean, c);
-
-        c.gridx = 0;
-        c.gridy = 0;
-        panelMain.add(panelUser, c);
+        panelBottom.add(labelName, c);
         c.gridx = 1;
         c.gridy = 0;
-        panelMain.add(labelSpace3, c);
+        panelBottom.add(labelSpace1, c);
         c.gridx = 2;
         c.gridy = 0;
-        panelMain.add(panelBot);
+        panelBottom.add(textMessage, c);
+        c.gridx = 3;
+        c.gridy = 0;
+        panelBottom.add(labelSpace2, c);
+        c.gridx = 4;
+        c.gridy = 0;
+        panelBottom.add(buttonSend, c);
+
+        c.gridx = 0;
+        c.gridy = 0;
+        panelMain.add(labelSpace3, c);
+        c.gridx = 0;
+        c.gridy = 1;
+        panelMain.add(textAreaMessage, c);
+        c.gridx = 0;
+        c.gridy = 2;
+        panelMain.add(labelSpace4, c);
+        c.gridx = 0;
+        c.gridy = 3;
+        panelMain.add(panelBottom, c);
+        c.gridx = 0;
+        c.gridy = 4;
+        panelMain.add(labelSpace5, c);
 
         add(panelMain, BorderLayout.CENTER);
 
-        buttonNext.addActionListener(new ActionListener() {
+        buttonSend.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    buttonAction();
-                } catch (BadLocationException e1) {
-                    e1.printStackTrace();
-                }
+                buttonAction();
             }
         });
     }
 
-    protected void buttonAction() throws BadLocationException {
+    protected void buttonAction(){
 
-        String textSave = textAreaUser.getText();
-        int lines = textAreaUser.getLineCount();
-
-        for(int i = 0; i < lines; i++){
-            int start = textAreaUser.getLineStartOffset(i);
-            int end = textAreaUser.getLineEndOffset(i);
-            String allArea = textAreaUser.getText(start, end-start);
-            System.out.println(allArea);
-        }
-        textAreaUser.setText(textSave + "\n");
+        String textSave = textAreaMessage.getText();
+        textAreaMessage.setText(textSave+"\n"+textMessage.getText());
     }
 }
 
