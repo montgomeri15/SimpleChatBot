@@ -12,6 +12,7 @@ import java.util.List;
 public class ChatFrame extends JFrame {
 
     private String title = "Чат-бот";
+    String name;
 
     private JPanel panelMain = new JPanel();
     private JPanel panelBottom = new JPanel();
@@ -39,7 +40,7 @@ public class ChatFrame extends JFrame {
         //Считываем labelName из логина через текст. файл
         try {
             List<String> mass = Files.readAllLines(Paths.get("text.txt"));
-            String name = mass.get(0)+":";
+            name = mass.get(0)+":";
             labelName.setText(name);
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,7 +89,8 @@ public class ChatFrame extends JFrame {
 
     protected void buttonAction(){
         String textSave = textAreaMessage.getText();
-        textAreaMessage.setText(textSave+"\n"+textMessage.getText());
+        textAreaMessage.setText(textSave+"\n"+name+" "+textMessage.getText());
+        textMessage.setText("");
     }
 }
 
