@@ -1,5 +1,7 @@
 package com.company.Frames;
 
+import com.company.Bot;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +12,8 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class ChatFrame extends JFrame {
+
+    Bot bot;
 
     private String title = "Чат-бот";
     String name;
@@ -92,11 +96,14 @@ public class ChatFrame extends JFrame {
         rootPane.setDefaultButton(buttonSend);
         //И фокусируем на текстфилд
         textMessage.requestFocusInWindow();
+
+        bot = new Bot();  //Подключаем бота
     }
 
     protected void buttonAction(){
         if (textMessage.getText().trim().length() > 0){
             textAreaMessage.append(name+" "+textMessage.getText()+"\n");  //Обновляем значение объекта
+            textAreaMessage.append("Бот: "+bot.botTalk(textMessage.getText())+"\n");
         } else{
         }
         textMessage.setText("");
