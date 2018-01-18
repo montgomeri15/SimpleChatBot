@@ -4,11 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class LoginFrame extends JFrame {
 
     private String title = "Логин";
-    String name;
 
     private JPanel panel = new JPanel();
     private JLabel labelQuestion = new JLabel("Как к вам обращаться?");
@@ -56,7 +57,16 @@ public class LoginFrame extends JFrame {
     }
 
     protected void buttonLogin(){
-        name = textName.getText();
+
+        FileWriter writer;
+        try {
+            writer = new FileWriter("text.txt", false);
+            writer.write(textName.getText());
+            writer.flush();  //Финализирует выходное состояние, очищая все буферы вывода (чтобы данные легли в файл)
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         ChatFrame chatFrame = new ChatFrame();
         chatFrame.ourChat();
     }

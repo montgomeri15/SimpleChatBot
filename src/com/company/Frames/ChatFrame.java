@@ -1,17 +1,17 @@
 package com.company.Frames;
 
-import sun.rmi.runtime.Log;
-
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 public class ChatFrame extends JFrame {
 
     private String title = "Чат-бот";
-    private String name;
 
     private JPanel panelMain = new JPanel();
     private JPanel panelBottom = new JPanel();
@@ -19,7 +19,7 @@ public class ChatFrame extends JFrame {
     private JTextArea textAreaMessage = new JTextArea(15,25);
     private JTextField textMessage = new JTextField(15);
 
-    private JLabel labelName = new JLabel(name);
+    private JLabel labelName = new JLabel();  //Имя задается из логина
     private JLabel labelSpace1 = new JLabel("    ");
     private JLabel labelSpace2 = new JLabel("    ");
     private JLabel labelSpace3 = new JLabel("    ");
@@ -35,6 +35,15 @@ public class ChatFrame extends JFrame {
         setVisible(true);
 
         textAreaMessage.setEditable(false);
+
+        //Считываем labelName из логина через текст. файл
+        try {
+            List<String> mass = Files.readAllLines(Paths.get("text.txt"));
+            String name = mass.get(0)+":";
+            labelName.setText(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //Блок с расположением
         panelMain.setLayout(new GridBagLayout());
