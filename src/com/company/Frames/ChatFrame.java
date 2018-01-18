@@ -17,25 +17,27 @@ public class ChatFrame extends JFrame {
     private JPanel panelMain = new JPanel();
     private JPanel panelBottom = new JPanel();
 
-    private JTextArea textAreaMessage = new JTextArea(15,25);
-    private JTextField textMessage = new JTextField(15);
+    private JTextArea textAreaMessage = new JTextArea(15,45);
+    JScrollPane scrollPane = new JScrollPane(textAreaMessage);
+    private JTextField textMessage = new JTextField(20);
 
     private JLabel labelName = new JLabel();  //Имя задается из логина
     private JLabel labelSpace1 = new JLabel("    ");
     private JLabel labelSpace2 = new JLabel("    ");
     private JLabel labelSpace3 = new JLabel("    ");
 
-    private JButton buttonSend = new JButton("Тыц");
+    private JButton buttonSend = new JButton("OK");
 
     protected void ourChat(){
 
         setTitle(title);
-        setSize(350,360);
+        setSize(550,360);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
         textAreaMessage.setEditable(false);
+        textAreaMessage.setLineWrap(true);  //Строки укладываются в несколько строк вместо одной, уходящей за границы компонента
 
         //Считываем labelName из логина через текст. файл
         try {
@@ -69,7 +71,7 @@ public class ChatFrame extends JFrame {
 
         c.gridx = 0;
         c.gridy = 0;
-        panelMain.add(textAreaMessage, c);
+        panelMain.add(scrollPane, c);
         c.gridx = 0;
         c.gridy = 1;
         panelMain.add(labelSpace3, c);
@@ -85,12 +87,20 @@ public class ChatFrame extends JFrame {
                 buttonAction();
             }
         });
+        //Также делаем кнопкой по умолчанию
+        JRootPane rootPane = SwingUtilities.getRootPane(buttonSend);
+        rootPane.setDefaultButton(buttonSend);
+        //И фокусируем на текстфилд
+        textMessage.requestFocusInWindow();
     }
 
     protected void buttonAction(){
-        String textSave = textAreaMessage.getText();
-        textAreaMessage.setText(textSave+"\n"+name+" "+textMessage.getText());
+        if (textMessage.getText().trim().length() > 0){
+            textAreaMessage.append(name+" "+textMessage.getText()+"\n");  //Обновляем значение объекта
+        } else{
+        }
         textMessage.setText("");
+        textMessage.requestFocusInWindow();
     }
 }
 

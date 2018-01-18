@@ -54,6 +54,9 @@ public class LoginFrame extends JFrame {
                 buttonLogin();
             }
         });
+        //Также делаем кнопкой по умолчанию
+        JRootPane rootPane = SwingUtilities.getRootPane(buttonSave);
+        rootPane.setDefaultButton(buttonSave);
     }
 
     protected void buttonLogin(){
