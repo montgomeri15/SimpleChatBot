@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Bot {
 
@@ -18,7 +19,38 @@ public class Bot {
             "Вам действительно это интересно?",
             "Скорее всего, вы уже и сами догадались."
     };
-
+    final Map<String, String> QUESTIONS_PATTERNS = new HashMap<String, String>(){
+        {
+            //hello
+            put("привет", "hello");
+            put("хай", "hello");
+            put("хелло", "hello");
+            //who
+            put("кто\\s.*ты", "who");
+            put("ты\\s.*кто", "who");
+            //name
+            put("как\\s.*зовут", "name");
+            put("как\\s.*имя", "name");
+            put("какое\\s.*имя", "name");
+            put("есть\\s.*имя", "name");
+            //howeareyou
+            put("как\\s.*дела", "howeareyou");
+            put("как\\s.*жизнь", "howeareyou");
+            //time
+            put("который\\s.*час", "time");
+            put("сколько\\s.*время", "time");
+            put("сколько\\s.*времени", "time");
+        }
+    };
+    final Map<String, String> ANSWERS_PATTERNS = new HashMap<String, String>(){
+        {
+            put("hello", "Привет!");
+            put("who", "Я простой чат-бот. Но скоро ты сделаешь меня крутым! :)");
+            put("name", "Называй меня Терон.");
+            put("howeareyou", "Хорошо. А ты как?");
+        }
+    };
+    Pattern pattern;
     Random random;
     Date date;
 
@@ -27,10 +59,26 @@ public class Bot {
         date = new Date();
     }
 
-    public String botTalk(String message){
-        String say = (message.trim().endsWith("?")) ?
+    public String botTalk(String ourMessage){
+        ourMessage = String.join(" ", ourMessage.toLowerCase().split("[ {,|.}?]%"));  //Маленький шрифт (нижний регистр)
+        String hisTalking;
+
+        //Этот блок отвечает за рядовые фразы и ответы
+        hisTalking = (ourMessage.trim().endsWith("?")) ?
                 ELUSIVE_ANSWERS[random.nextInt(ELUSIVE_ANSWERS.length)] :
                 COMMON_PHRASES[random.nextInt(COMMON_PHRASES.length)];
-        return say;
+
+        //В этом блоке перебираем ключ-значение вопросов. Если есть совпадения, меняем hisTalking.
+        for (Map.Entry<String, String> o : QUESTIONS_PATTERNS.entrySet()){
+            pattern = Pattern.compile(o.getKey());
+            if (pattern.matcher(ourMessage).find()){
+                if (o.getValue().equals("time")){
+                    hisTalking = date.toString();
+                } else {
+                    hisTalking = ANSWERS_PATTERNS.get(o.getValue());
+                }
+            }
+        }
+        return hisTalking;
     }
 }

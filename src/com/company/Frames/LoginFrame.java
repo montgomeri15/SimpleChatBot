@@ -26,7 +26,7 @@ public class LoginFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
-        //Блок с расположением
+        /** Расположение элементов */
         panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 

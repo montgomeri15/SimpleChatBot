@@ -1,6 +1,5 @@
 package com.company;
 
-import com.company.Frames.ChatFrame;
 import com.company.Frames.LoginFrame;
 
 public class Main {
