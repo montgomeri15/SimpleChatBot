@@ -1,5 +1,6 @@
 package com.company;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -40,6 +41,10 @@ public class Bot {
             put("который\\s.*час", "time");
             put("сколько\\s.*время", "time");
             put("сколько\\s.*времени", "time");
+            //day
+            put("какой\\s.*день", "day");
+            put("какая\\s.*дата", "day");
+            put("какое\\s.*число", "day");
         }
     };
     final Map<String, String> ANSWERS_PATTERNS = new HashMap<String, String>(){
@@ -53,10 +58,13 @@ public class Bot {
     Pattern pattern;
     Random random;
     Date date;
+    SimpleDateFormat time, day;
 
     public Bot(){
         random = new Random();
         date = new Date();
+        time = new SimpleDateFormat("HH:mm");
+        day = new SimpleDateFormat("dd.MM.yyyy");
     }
 
     public String botTalk(String ourMessage){
@@ -73,7 +81,9 @@ public class Bot {
             pattern = Pattern.compile(o.getKey());
             if (pattern.matcher(ourMessage).find()){
                 if (o.getValue().equals("time")){
-                    hisTalking = date.toString();
+                    hisTalking = time.format(date);
+                } else if (o.getValue().equals("day")){
+                    hisTalking = day.format(date);
                 } else {
                     hisTalking = ANSWERS_PATTERNS.get(o.getValue());
                 }
