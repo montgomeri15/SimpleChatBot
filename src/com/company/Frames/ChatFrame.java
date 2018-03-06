@@ -104,10 +104,8 @@ public class ChatFrame extends JFrame {
         if (textMessage.getText().trim().length() > 0){
             textAreaMessage.append(name+" "+textMessage.getText()+"\n");  //Обновляем значение объекта
             textAreaMessage.append("Бот: "+bot.botTalk(textMessage.getText())+"\n");
-        } else{
         }
         textMessage.setText("");
-        textMessage.requestFocusInWindow();
     }
 }
 
